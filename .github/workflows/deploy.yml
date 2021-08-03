@@ -3,7 +3,7 @@ name: "2. Deploy"
 on:
   workflow_run:
     workflows: ["1. Build"]
-    branches: [main]
+    branches: [env1]
     types:
       - completed
 
