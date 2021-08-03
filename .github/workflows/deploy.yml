@@ -1,8 +1,8 @@
-name: Deploy
+name: "2. Deploy"
 
 on:
   workflow_run:
-    workflows: ["Test Github Actions"]
+    workflows: ["1. Build"]
     branches: [main]
     types:
       - completed
