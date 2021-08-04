@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Default Environment
+        run: |
+          env
+
       - name: Checkout Repo
         uses: actions/checkout@v2
 
