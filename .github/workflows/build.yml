@@ -9,8 +9,7 @@ jobs:
 
     steps:
       - name: Default Environment
-        run: |
-          env
+        run: env
 
       - name: Checkout Repo
         uses: actions/checkout@v2
