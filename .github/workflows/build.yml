@@ -3,6 +3,13 @@ name: "1. Build"
 on:
   push:
 
+env:
+  if: github.ref == 'main'
+  IMAGE_TAG: latest
+
+  if: github.ref == 'env1'
+  IMAGE_TAG: env1
+
 jobs:
   Build:
     runs-on: ubuntu-latest
