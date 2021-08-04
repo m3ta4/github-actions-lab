@@ -3,11 +3,12 @@ name: "1. Build"
 on:
   push:
 
+if: github.ref == 'main'
 env:
-  if: github.ref == 'main'
   IMAGE_TAG: latest
 
-  if: github.ref == 'env1'
+if: github.ref == 'env1'
+env:
   IMAGE_TAG: env1
 
 jobs:
