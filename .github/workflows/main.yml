@@ -1,0 +1,54 @@
+name: "CI/CD"
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'The container image tag.'
+        required: true
+        default: conexed-io
+      build-project:
+        description: 'Build the container image?'
+        required: true
+        default: "yes"
+      build-ami:
+        description: 'Build the AMI?'
+        required: true
+        default: "yes"
+      deploy-project:
+        description: 'Deploy?'
+        required: true
+        default: "yes"
+
+jobs:
+  Build:
+    uses: m3ta4/github-actions-lab/.github/workflows/build.yml@reusable-workflow
+    with:
+      tag: ${{ github.event.inputs.tag }}
+      build-project: ${{ github.event.inputs.build-project }}
+
+  Build_AMI:
+    needs: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build AMI
+        if: ${{ github.event.inputs.build-ami == 'yes' }}
+        run: echo "Building AMI"
+
+      - name: Skip AMI Build
+        if: ${{ github.event.inputs.build-ami == 'no' }}
+        run: echo "Skip AMI Build"
+
+  Deploy:
+    needs: Build_AMI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy
+        if: ${{ github.event.inputs.deploy-project == 'yes' }}
+        run: echo "Deploy AMI"
+
+      - name: Skip Deploy
+        if: ${{ github.event.inputs.deploy-project == 'no' }}
+        run: echo "Skip deploy"

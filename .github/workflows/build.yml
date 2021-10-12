@@ -1,24 +1,14 @@
 name: "Build"
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       tag:
-        description: 'The container image tag.'
         required: true
-        default: conexed-io
+        type: string
       build-project:
-        description: 'Build the container image?'
         required: true
-        default: "yes"
-      build-ami:
-        description: 'Build the AMI?'
-        required: true
-        default: "yes"
-      deploy-project:
-        description: 'Deploy?'
-        required: true
-        default: "yes"
+        type: string
 
 jobs:
   Build:
@@ -26,35 +16,9 @@ jobs:
 
     steps:
       - name: Build Project
-        if: ${{ github.event.inputs.build-project == 'yes' }}
-        run: echo "Building Project"
+        if: ${{ inputs.build-project == 'yes' }}
+        run: echo "Building Project: ${{ inputs.tag }}"
 
       - name: Skip project build
-        if: ${{ github.event.inputs.build-project == 'no' }}
+        if: ${{ inputs.build-project == 'no' }}
         run: echo "Skip project build."
-
-  Build_AMI:
-    needs: Build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Build AMI
-        if: ${{ github.event.inputs.build-ami == 'yes' }}
-        run: echo "Building AMI"
-
-      - name: Skip AMI Build
-        if: ${{ github.event.inputs.build-ami == 'no' }}
-        run: echo "Skip AMI Build"
-
-  Deploy:
-    needs: Build_AMI
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Deploy
-        if: ${{ github.event.inputs.deploy-project == 'yes' }}
-        run: echo "Deploy AMI"
-
-      - name: Skip Deploy
-        if: ${{ github.event.inputs.deploy-project == 'no' }}
-        run: echo "Skip deploy"
