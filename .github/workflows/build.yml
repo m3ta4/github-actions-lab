@@ -29,7 +29,8 @@ jobs:
         if: ${{ github.event.inputs.build-project == 'yes' }}
         run: echo "Building Project"
 
-      - name: Using existing build
+      - name: Skip project build
+        if: ${{ github.event.inputs.build-project == 'no' }}
         run: echo "Skip project build."
 
   Build_AMI:
@@ -41,7 +42,8 @@ jobs:
         if: ${{ github.event.inputs.build-ami == 'yes' }}
         run: echo "Building AMI"
 
-      - name: Using existing AMI
+      - name: Skip AMI Build
+        if: ${{ github.event.inputs.build-ami == 'no' }}
         run: echo "Skip AMI Build"
 
   Deploy:
@@ -53,5 +55,6 @@ jobs:
         if: ${{ github.event.inputs.deploy-project == 'yes' }}
         run: echo "Deploy AMI"
 
-      - name: Using existing build
+      - name: Skip Deploy
+        if: ${{ github.event.inputs.deploy-project == 'no' }}
         run: echo "Skip deploy"
