@@ -17,7 +17,9 @@ jobs:
     steps:
       - name: Build Project
         if: ${{ inputs.build-project == 'yes' }}
-        run: echo "Building Project: "${{ inputs.tag }}
+        env:
+          TAG: ${{ inputs.tag }}
+        run: echo "Building Project: $TAG"
 
       - name: Skip project build
         if: ${{ inputs.build-project == 'no' }}
