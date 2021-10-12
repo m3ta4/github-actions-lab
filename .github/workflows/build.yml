@@ -44,6 +44,8 @@ jobs:
   Deploy:
     if: ${{ github.event.inputs.deploy-project == 'yes' }}
 
+    needs: Build_AMI
+
     runs-on: ubuntu-latest
 
     steps:
