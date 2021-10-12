@@ -1,28 +1,51 @@
-name: "1. Build"
+name: "Build"
 
 on:
-  push:
-
-if: github.ref == 'main'
-env:
-  IMAGE_TAG: latest
-
-if: github.ref == 'env1'
-env:
-  IMAGE_TAG: env1
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'The container image tag.'
+        required: true
+        default: conexed-io
+      build-project:
+        description: 'Build the container image?'
+        required: true
+        default: "yes"
+      build-ami:
+        description: 'Build the AMI?'
+        required: true
+        default: "yes"
+      deploy-project:
+        description: 'Deploy?'
+        required: true
+        default: "yes"
 
 jobs:
   Build:
+    if: ${{ github.event.inputs.build-project == 'yes' }}
+
     runs-on: ubuntu-latest
 
     steps:
-      - name: Default Environment
-        run: env
+      - name: Build Project
+        run: echo "Building Project"
 
-      - name: Checkout Repo
-        uses: actions/checkout@v2
+  Build_AMI:
+    if: ${{ github.event.inputs.build-ami == 'yes' }}
 
-      - name: Hello World
-        run: |
-          ./hello-world.sh
-          env
+    needs: Build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build AMI
+        run: echo "Building AMI"
+
+  Deploy:
+    if: ${{ github.event.inputs.deploy-project == 'yes' }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build AMI
+        run: echo "Building AMI"
