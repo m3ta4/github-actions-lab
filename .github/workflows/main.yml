@@ -26,11 +26,18 @@ on:
 
 jobs:
   Build:
-    uses: m3ta4/github-actions-lab/.github/workflows/build.yml@main
-    with:
-      build-project: ${{ github.event.inputs.build-project }}
-      environment: ${{ github.event.inputs.environment }}
-      tag: ${{ github.event.inputs.tag }}
+    steps:
+      - name: Build Project
+        if: ${{ github.event.inputs.build-project == 'yes' }}
+
+        uses: m3ta4/github-actions-lab/.github/workflows/build.yml@main
+        with:
+          environment: ${{ github.event.inputs.environment }}
+          tag: ${{ github.event.inputs.tag }}
+
+      - name: Skip project build
+        if: ${{ github.event.inputs.build-project == 'no' }}
+        run: echo "Skip project build."
 
   Build_AMI:
     needs: Build

@@ -3,9 +3,6 @@ name: "Build Project"
 on:
   workflow_call:
     inputs:
-      build-project:
-        required: true
-        type: string
       environment:
         required: true
         type: string
@@ -19,7 +16,6 @@ jobs:
 
     steps:
       - name: Build Project
-        if: ${{ inputs.build-project == 'yes' }}
         env:
           ENVIRONMENT: ${{ inputs.environment }}
           TAG: ${{ inputs.tag }}
@@ -27,7 +23,3 @@ jobs:
           echo "Building Project"
           echo "- Environment:" $ENVIRONMENT
           echo "- Image Tag:" $TAG
-
-      - name: Skip project build
-        if: ${{ inputs.build-project == 'no' }}
-        run: echo "Skip project build."
