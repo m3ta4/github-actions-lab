@@ -15,7 +15,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy
+      - name: Deploy Prod
+        if: ${{ inputs.deploy-project == 'yes' && inputs.environment == 'prod' && contains(github.actor, 'm3ta4') }}
+        env:
+          ENVIRONMENT: ${{ inputs.environment }}
+        run: |
+          echo "Deploying Project"
+          echo "- Environment:" $ENVIRONMENT
+          echo "- Triggerd by:" $GITHUB_ACTOR
+
+      - name: Deploy QA
         if: ${{ inputs.deploy-project == 'yes' }}
         env:
           ENVIRONMENT: ${{ inputs.environment }}
