@@ -28,6 +28,7 @@ jobs:
           echo "- Environment:" $ENVIRONMENT
           echo "- Image Tag:" $TAG
           echo ""
+          cd $GITHUB_WORKSPACE
           echo "Working directory"
           pwd
           ls -lah
