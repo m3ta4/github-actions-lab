@@ -32,8 +32,6 @@ jobs:
           echo "- Environment:" $ENVIRONMENT
           echo "- Image Tag:" $TAG
 
-        uses: ./.github/actions/build
-
       - name: Skip project build
         if: ${{ inputs.build-project == 'no' }}
         run: echo "Skip project build."
