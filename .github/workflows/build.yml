@@ -27,6 +27,10 @@ jobs:
           echo "Building Project"
           echo "- Environment:" $ENVIRONMENT
           echo "- Image Tag:" $TAG
+          echo ""
+          echo "Working directory"
+          pwd
+          ls -lah
 
       - name: Skip project build
         if: ${{ inputs.build-project == 'no' }}

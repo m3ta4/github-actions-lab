@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'The ConexED environment to deploy to: test, IO or prod.'
+        description: 'The ConexED environment to deploy to: test, io or prod.'
         required: true
         default: "test"
       tag:
