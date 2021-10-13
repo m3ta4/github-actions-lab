@@ -19,6 +19,7 @@ jobs:
 
     steps:
       - name: Checkout Repo
+        if: ${{ inputs.build-project == 'yes' }}
         uses: actions/checkout@v2
 
       - name: Build Project
@@ -30,11 +31,8 @@ jobs:
           echo "Building Project"
           echo "- Environment:" $ENVIRONMENT
           echo "- Image Tag:" $TAG
-          echo ""
-          cd $GITHUB_WORKSPACE
-          echo "Working directory"
-          pwd
-          ls -lah
+
+        uses: ./.github/actions/build
 
       - name: Skip project build
         if: ${{ inputs.build-project == 'no' }}
