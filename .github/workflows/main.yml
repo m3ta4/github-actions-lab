@@ -42,13 +42,7 @@ jobs:
 
   Deploy:
     needs: Build_AMI
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Deploy
-        if: ${{ github.event.inputs.deploy-project == 'yes' }}
-        run: echo "Deploy AMI"
-
-      - name: Skip Deploy
-        if: ${{ github.event.inputs.deploy-project == 'no' }}
-        run: echo "Skip deploy"
+    uses: m3ta4/github-actions-lab/.github/workflows/deploy.yml@main
+    with:
+      build-ami: ${{ github.event.inputs.build-ami }}
+      environment: ${{ github.event.inputs.environment }}
