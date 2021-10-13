@@ -28,15 +28,17 @@ jobs:
   Build:
     uses: m3ta4/github-actions-lab/.github/workflows/build.yml@main
     with:
-      tag: ${{ github.event.inputs.tag }}
       build-project: ${{ github.event.inputs.build-project }}
+      environment: ${{ github.event.inputs.environment }}
+      tag: ${{ github.event.inputs.tag }}
 
   Build_AMI:
     needs: Build
     uses: m3ta4/github-actions-lab/.github/workflows/build-ami.yml@main
     with:
-      tag: ${{ github.event.inputs.tag }}
       build-ami: ${{ github.event.inputs.build-ami }}
+      environment: ${{ github.event.inputs.environment }}
+      tag: ${{ github.event.inputs.tag }}
 
   Deploy:
     needs: Build_AMI
