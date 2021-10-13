@@ -3,7 +3,7 @@ name: "Deploy"
 on:
   workflow_call:
     inputs:
-      build-ami:
+      deploy-project:
         required: true
         type: string
       environment:
@@ -11,7 +11,7 @@ on:
         type: string
 
 jobs:
-  Build:
+  Deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,6 +23,6 @@ jobs:
           echo "Deploying Project"
           echo "- Environment:" $ENVIRONMENT
 
-      - name: Skip project build
-        if: ${{ inputs.build-project == 'no' }}
+      - name: Skip Deploy
+        if: ${{ inputs.deploy-project == 'no' }}
         run: echo "Skip deploy."
