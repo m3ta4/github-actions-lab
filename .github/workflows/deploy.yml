@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Deploy Prod
-        if: ${{ inputs.deploy-project == 'yes' && inputs.environment == 'prod' && contains(github.actor, 'm3ta4') }}
+        if: ${{ inputs.deploy-project == 'yes' && inputs.environment == 'prod' && github.actor == 'm3ta4' }}
         env:
           ENVIRONMENT: ${{ inputs.environment }}
         run: |
@@ -25,7 +25,7 @@ jobs:
           echo "- Triggerd by:" $GITHUB_ACTOR
 
       - name: Deploy QA
-        if: ${{ inputs.deploy-project == 'yes' }}
+        if: ${{ inputs.deploy-project == 'yes' && inputs.environment == ( 'test' || 'io' ) }}
         env:
           ENVIRONMENT: ${{ inputs.environment }}
         run: |
