@@ -18,6 +18,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
       - name: Build Project
         if: ${{ inputs.build-project == 'yes' }}
         env:
