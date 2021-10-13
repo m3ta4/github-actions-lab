@@ -44,5 +44,5 @@ jobs:
     needs: Build_AMI
     uses: m3ta4/github-actions-lab/.github/workflows/deploy.yml@main
     with:
-      build-ami: ${{ github.event.inputs.build-ami }}
+      deploy-project: ${{ github.event.inputs.build-ami }}
       environment: ${{ github.event.inputs.environment }}
