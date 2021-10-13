@@ -1,9 +1,9 @@
-name: "Build Project"
+name: "Build AMI"
 
 on:
   workflow_call:
     inputs:
-      build-project:
+      build-ami:
         required: true
         type: string
       environment:
@@ -14,20 +14,21 @@ on:
         type: string
 
 jobs:
-  Build:
+  Build_AMI:
+    needs: Build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Build Project
-        if: ${{ inputs.build-project == 'yes' }}
+      - name: Build AMI
+        if: ${{ inputs.build-ami == 'yes' }}
         env:
           ENVIRONMENT: ${{ inputs.environment }}
           TAG: ${{ inputs.tag }}
         run: |
-          echo "Building Project"
+          echo "Building AMI"
           echo "- Environment:" $ENVIRONMENT
           echo "- Image Tag:" $TAG
 
-      - name: Skip project build
-        if: ${{ inputs.build-project == 'no' }}
-        run: echo "Skip project build."
+      - name: Skip AMI Build
+        if: ${{ inputs.build-ami == 'no' }}
+        run: echo "Skip AMI Build"

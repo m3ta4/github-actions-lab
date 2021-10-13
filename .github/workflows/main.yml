@@ -3,10 +3,14 @@ name: "CI/CD"
 on:
   workflow_dispatch:
     inputs:
+      environment:
+        description: 'The ConexED environment to deploy to: test, IO or prod.'
+        required: true
+        default: "test"
       tag:
         description: 'The container image tag.'
         required: true
-        default: conexed-io
+        default: "latest"
       build-project:
         description: 'Build the container image?'
         required: true
@@ -29,16 +33,10 @@ jobs:
 
   Build_AMI:
     needs: Build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Build AMI
-        if: ${{ github.event.inputs.build-ami == 'yes' }}
-        run: echo "Building AMI"
-
-      - name: Skip AMI Build
-        if: ${{ github.event.inputs.build-ami == 'no' }}
-        run: echo "Skip AMI Build"
+    uses: m3ta4/github-actions-lab/.github/workflows/build-ami.yml@reusable-workflow
+    with:
+      tag: ${{ github.event.inputs.tag }}
+      build-ami: ${{ github.event.inputs.build-ami }}
 
   Deploy:
     needs: Build_AMI
