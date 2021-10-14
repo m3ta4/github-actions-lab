@@ -1,0 +1,12 @@
+name: "Skip"
+
+on:
+  workflow_call:
+
+jobs:
+  Skip:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Skip
+        run: echo "Skipping..."

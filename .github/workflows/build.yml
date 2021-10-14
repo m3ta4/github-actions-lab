@@ -1,4 +1,4 @@
-name: "Build Project"
+name: "Project"
 
 on:
   workflow_call:
@@ -15,7 +15,6 @@ on:
 
 jobs:
   Build:
-    if: ${{ inputs.build-project == 'yes' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -38,11 +37,3 @@ jobs:
 
       - name: Build Project
         uses: ./.github/actions/build
-
-  Skip_Build:
-    if: ${{ inputs.build-project == 'no' }}
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Skip Build
-        run: echo "Skip project build."
