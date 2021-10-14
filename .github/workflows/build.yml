@@ -22,7 +22,7 @@ jobs:
         if: ${{ inputs.build-project == 'yes' }}
         uses: actions/checkout@v2
 
-      - name: Build Project
+      - name: Project Workspace
         if: ${{ inputs.build-project == 'yes' }}
         env:
           ENVIRONMENT: ${{ inputs.environment }}
@@ -37,6 +37,7 @@ jobs:
           pwd
           find .
 
+      - name: Build Project
         uses: ./.github/actions/build
 
       - name: Skip project build
