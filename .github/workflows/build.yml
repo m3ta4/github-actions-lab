@@ -31,6 +31,11 @@ jobs:
           echo "Building Project"
           echo "- Environment:" $ENVIRONMENT
           echo "- Image Tag:" $TAG
+          echo ""
+          cd $GITHUB_WORKSPACE
+          echo "Working directory"
+          pwd
+          find .
 
       - name: Skip project build
         if: ${{ inputs.build-project == 'no' }}
