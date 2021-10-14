@@ -38,7 +38,7 @@ runs:
       shell: bash
       run: |
         cd client/
-        npm
+        ./npm
 
     # - name: Build New Client
     #   run: |
