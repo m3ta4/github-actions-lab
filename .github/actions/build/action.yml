@@ -35,6 +35,7 @@ runs:
     #     cache: 'npm'
 
     - name: Build Client
+      shell: bash
       run: |
         cd client/
         npm
