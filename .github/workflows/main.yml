@@ -32,8 +32,6 @@ jobs:
       build-project: ${{ github.event.inputs.build-project }}
       environment: ${{ github.event.inputs.environment }}
       tag: ${{ github.event.inputs.tag }}
-    if: ${{ inputs.build-project == 'no' }}
-    uses: m3ta4/github-actions-lab/.github/workflows/skip.yml@main
 
   Build_AMI:
     needs: Build
