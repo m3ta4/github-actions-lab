@@ -40,5 +40,9 @@ jobs:
         uses: ./.github/actions/build
 
   Skip_Build:
-        if: ${{ inputs.build-project == 'no' }}
+    if: ${{ inputs.build-project == 'no' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Skip Build
         run: echo "Skip project build."
