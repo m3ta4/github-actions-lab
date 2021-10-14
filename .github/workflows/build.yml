@@ -1,8 +1,11 @@
-name: "Project"
+name: "Build Project"
 
 on:
   workflow_call:
     inputs:
+      build-project:
+        required: true
+        type: string
       environment:
         required: true
         type: string
@@ -12,6 +15,7 @@ on:
 
 jobs:
   Build:
+    if: ${{ inputs.build-project == 'yes' }}
     runs-on: ubuntu-latest
 
     steps:

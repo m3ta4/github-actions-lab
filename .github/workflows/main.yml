@@ -26,7 +26,6 @@ on:
 
 jobs:
   Build:
-    if: ${{ github.event.inputs.build-project == 'yes' }}
     uses: m3ta4/github-actions-lab/.github/workflows/build.yml@main
     with:
       environment: ${{ github.event.inputs.environment }}
