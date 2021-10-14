@@ -3,9 +3,6 @@ name: "Project"
 on:
   workflow_call:
     inputs:
-      build-project:
-        required: true
-        type: string
       environment:
         required: true
         type: string

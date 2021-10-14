@@ -26,10 +26,9 @@ on:
 
 jobs:
   Build:
-    if: ${{ inputs.build-project == 'yes' }}
+    if: ${{ github.event.inputs.build-project == 'yes' }}
     uses: m3ta4/github-actions-lab/.github/workflows/build.yml@main
     with:
-      build-project: ${{ github.event.inputs.build-project }}
       environment: ${{ github.event.inputs.environment }}
       tag: ${{ github.event.inputs.tag }}
 
