@@ -25,14 +25,14 @@ on:
         default: "yes"
 
 jobs:
-  Build:
+  1:
     uses: m3ta4/github-actions-lab/.github/workflows/build.yml@main
     with:
       build-project: ${{ github.event.inputs.build-project }}
       environment: ${{ github.event.inputs.environment }}
       tag: ${{ github.event.inputs.tag }}
 
-  Build_AMI:
+  2:
     needs: Build
     uses: m3ta4/github-actions-lab/.github/workflows/build-ami.yml@main
     with:
@@ -40,7 +40,7 @@ jobs:
       environment: ${{ github.event.inputs.environment }}
       tag: ${{ github.event.inputs.tag }}
 
-  Deploy:
+  3:
     needs: Build_AMI
     uses: m3ta4/github-actions-lab/.github/workflows/deploy.yml@main
     with:

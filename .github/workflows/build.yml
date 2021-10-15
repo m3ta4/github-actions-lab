@@ -15,14 +15,15 @@ on:
 
 jobs:
   Build:
-    if: ${{ inputs.build-project == 'yes' }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repo
+        if: ${{ inputs.build-project == 'yes' }}
         uses: actions/checkout@v2
 
       - name: Project Workspace
+        if: ${{ inputs.build-project == 'yes' }}
         env:
           ENVIRONMENT: ${{ inputs.environment }}
           TAG: ${{ inputs.tag }}
@@ -37,4 +38,9 @@ jobs:
           find .
 
       - name: Build Project
+        if: ${{ inputs.build-project == 'yes' }}
         uses: ./.github/actions/build
+
+      - name: Skip project build
+        if: ${{ inputs.build-project == 'no' }}
+        run: echo "Skip project build."
