@@ -33,7 +33,7 @@ jobs:
       tag: ${{ github.event.inputs.tag }}
 
   _2:
-    needs: Build
+    needs: _1
     uses: m3ta4/github-actions-lab/.github/workflows/build-ami.yml@main
     with:
       build-ami: ${{ github.event.inputs.build-ami }}
@@ -41,7 +41,7 @@ jobs:
       tag: ${{ github.event.inputs.tag }}
 
   _3:
-    needs: Build_AMI
+    needs: _2
     uses: m3ta4/github-actions-lab/.github/workflows/deploy.yml@main
     with:
       deploy-project: ${{ github.event.inputs.build-ami }}
