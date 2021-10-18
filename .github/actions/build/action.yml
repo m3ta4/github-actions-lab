@@ -1,25 +1,25 @@
 name: 'Build'
 description: 'Build action.'
-# inputs:
-#   aws-access-key-id:
-#     description: 'AWS Access Key ID'
-#     required: true
-#   aws-region:
-#     description: 'AWS AMI Region'
-#     required: true
-#   aws-secret-access-key:
-#     description: 'AWS Secret Access Key'
-#     required: true
+inputs:
+  aws-access-key-id:
+    description: 'AWS Access Key ID'
+    required: true
+  aws-region:
+    description: 'AWS AMI Region'
+    required: true
+  aws-secret-access-key:
+    description: 'AWS Secret Access Key'
+    required: true
 runs:
   using: "composite"
   steps:
-    # - name: Configure AWS credentials
-    #   uses: aws-actions/configure-aws-credentials@v1
-    #   with:
-    #     aws-access-key-id: ${{ inputs.aws-access-key-id }}
-    #     aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
-    #     aws-region: ${{ inputs.aws-region }}
-    #     mask-aws-account-id: 'no'
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ inputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+        aws-region: ${{ inputs.aws-region }}
+        mask-aws-account-id: 'no'
 
     # - name: Login to Amazon ECR
     #   id: ecr-login
@@ -39,6 +39,7 @@ runs:
       run: |
         cd client/
         ./npm
+        aws ec2 describe-regions
 
     # - name: Build New Client
     #   run: |
