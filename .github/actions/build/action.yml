@@ -10,15 +10,28 @@ inputs:
   aws-secret-access-key:
     description: 'AWS Secret Access Key'
     required: true
+  environment:
+    description: 'The Conexed environment.'
+    required: true
 runs:
   using: "composite"
   steps:
-    - name: Configure AWS credentials
+    - name: Configure Prod AWS credentials
+      if: ${{ inputs.environment == 'prod' }}
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ inputs.aws-access-key-id }}
-        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
-        aws-region: ${{ inputs.aws-region }}
+        aws-access-key-id: ${{ secrets.QA_GITHUB_ACTIONS_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.QA_GITHUB_ACTIONS_AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
+        mask-aws-account-id: 'no'
+
+    - name: Configure AWS credentials
+      if: ${{ inputs.environment == ( 'qa' || 'test' ) }}
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.QA_GITHUB_ACTIONS_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.QA_GITHUB_ACTIONS_AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
         mask-aws-account-id: 'no'
 
     # - name: Login to Amazon ECR
