@@ -25,24 +25,68 @@ on:
         default: "yes"
 
 jobs:
-  _1:
-    uses: m3ta4/github-actions-lab/.github/workflows/build.yml@main
-    with:
-      build-project: ${{ github.event.inputs.build-project }}
-      environment: ${{ github.event.inputs.environment }}
-      tag: ${{ github.event.inputs.tag }}
+  Prod:
+    if: ${{ github.event.inputs.environment == 'prod' }}
+    runs-on: ubuntu-latest
 
-  _2:
-    needs: _1
-    uses: m3ta4/github-actions-lab/.github/workflows/build-ami.yml@main
-    with:
-      build-ami: ${{ github.event.inputs.build-ami }}
-      environment: ${{ github.event.inputs.environment }}
-      tag: ${{ github.event.inputs.tag }}
+    steps:
+      - name: Build
+        uses: m3ta4/github-actions-lab/.github/workflows/build.yml@main
+        with:
+          aws-access-key-id: ${{ secrets.PROD_GITHUB_ACTIONS_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PROD_GITHUB_ACTIONS_AWS_SECRET_ACCESS_KEY }}
+          build-project: ${{ github.event.inputs.build-project }}
+          environment: ${{ github.event.inputs.environment }}
+          tag: ${{ github.event.inputs.tag }}
 
-  _3:
-    needs: _2
-    uses: m3ta4/github-actions-lab/.github/workflows/deploy.yml@main
-    with:
-      deploy-project: ${{ github.event.inputs.build-ami }}
-      environment: ${{ github.event.inputs.environment }}
+      - name: AMI
+        needs: Build
+        uses: m3ta4/github-actions-lab/.github/workflows/build-ami.yml@main
+        with:
+          aws-access-key-id: ${{ secrets.PROD_GITHUB_ACTIONS_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PROD_GITHUB_ACTIONS_AWS_SECRET_ACCESS_KEY }}
+          build-ami: ${{ github.event.inputs.build-ami }}
+          environment: ${{ github.event.inputs.environment }}
+          tag: ${{ github.event.inputs.tag }}
+
+      - name: Deploy
+        needs: AMI
+        uses: m3ta4/github-actions-lab/.github/workflows/deploy.yml@main
+        with:
+          aws-access-key-id: ${{ secrets.PROD_GITHUB_ACTIONS_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PROD_GITHUB_ACTIONS_AWS_SECRET_ACCESS_KEY }}
+          deploy-project: ${{ github.event.inputs.build-ami }}
+          environment: ${{ github.event.inputs.environment }}
+
+  QA:
+    if: ${{ github.event.inputs.environment == ( 'io' || 'test' ) }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build
+        uses: m3ta4/github-actions-lab/.github/workflows/build.yml@main
+        with:
+          aws-access-key-id: ${{ secrets.QA_GITHUB_ACTIONS_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.QA_GITHUB_ACTIONS_AWS_SECRET_ACCESS_KEY }}
+          build-project: ${{ github.event.inputs.build-project }}
+          environment: ${{ github.event.inputs.environment }}
+          tag: ${{ github.event.inputs.tag }}
+
+      - name: AMI
+        needs: Build
+        uses: m3ta4/github-actions-lab/.github/workflows/build-ami.yml@main
+        with:
+          aws-access-key-id: ${{ secrets.QA_GITHUB_ACTIONS_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.QA_GITHUB_ACTIONS_AWS_SECRET_ACCESS_KEY }}
+          build-ami: ${{ github.event.inputs.build-ami }}
+          environment: ${{ github.event.inputs.environment }}
+          tag: ${{ github.event.inputs.tag }}
+
+      - name: Deploy
+        needs: AMI
+        uses: m3ta4/github-actions-lab/.github/workflows/deploy.yml@main
+        with:
+          aws-access-key-id: ${{ secrets.QA_GITHUB_ACTIONS_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.QA_GITHUB_ACTIONS_AWS_SECRET_ACCESS_KEY }}
+          deploy-project: ${{ github.event.inputs.build-ami }}
+          environment: ${{ github.event.inputs.environment }}
