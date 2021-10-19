@@ -42,9 +42,6 @@ jobs:
       build-ami: ${{ github.event.inputs.build-ami }}
       environment: ${{ github.event.inputs.environment }}
       tag: ${{ github.event.inputs.tag }}
-    secrets:
-      aws-access-key-id: ${{ secrets.QA_GITHUB_ACTIONS_AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.QA_GITHUB_ACTIONS_AWS_SECRET_ACCESS_KEY }}
 
   _3:
     needs: _2
@@ -52,6 +49,3 @@ jobs:
     with:
       deploy-project: ${{ github.event.inputs.build-ami }}
       environment: ${{ github.event.inputs.environment }}
-    secrets:
-      aws-access-key-id: ${{ secrets.QA_GITHUB_ACTIONS_AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.QA_GITHUB_ACTIONS_AWS_SECRET_ACCESS_KEY }}
