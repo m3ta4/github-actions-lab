@@ -1,0 +1,54 @@
+name: "Prod CI/CD"
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'The ConexED environment to deploy to: test, io or prod.'
+        required: true
+        default: "test"
+      tag:
+        description: 'The container image tag.'
+        required: true
+        default: "latest"
+      build-project:
+        description: 'Build the container image?'
+        required: true
+        default: "yes"
+      build-ami:
+        description: 'Build the AMI?'
+        required: true
+        default: "yes"
+      deploy-project:
+        description: 'Deploy?'
+        required: true
+        default: "yes"
+
+jobs:
+  _1:
+    uses: m3ta4/github-actions-lab/.github/workflows/build.yml@main
+    with:
+      aws-access-key-id: ${{ secrets.PROD_GITHUB_ACTIONS_AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.PROD_GITHUB_ACTIONS_AWS_SECRET_ACCESS_KEY }}
+      build-project: ${{ github.event.inputs.build-project }}
+      environment: ${{ github.event.inputs.environment }}
+      tag: ${{ github.event.inputs.tag }}
+
+  _2:
+    needs: _1
+    uses: m3ta4/github-actions-lab/.github/workflows/build-ami.yml@main
+    with:
+      aws-access-key-id: ${{ secrets.PROD_GITHUB_ACTIONS_AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.PROD_GITHUB_ACTIONS_AWS_SECRET_ACCESS_KEY }}
+      build-ami: ${{ github.event.inputs.build-ami }}
+      environment: ${{ github.event.inputs.environment }}
+      tag: ${{ github.event.inputs.tag }}
+
+  _3:
+    needs: _2
+    uses: m3ta4/github-actions-lab/.github/workflows/deploy.yml@main
+    with:
+      aws-access-key-id: ${{ secrets.PROD_GITHUB_ACTIONS_AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.PROD_GITHUB_ACTIONS_AWS_SECRET_ACCESS_KEY }}
+      deploy-project: ${{ github.event.inputs.build-ami }}
+      environment: ${{ github.event.inputs.environment }}
