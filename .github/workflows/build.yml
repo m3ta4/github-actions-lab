@@ -12,19 +12,17 @@ on:
       tag:
         required: true
         type: string
+    secrets:
+      aws-access-key-id:
+        required: true
+      aws-secret-access-key:
+        required: true
 
 jobs:
   Build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.QA_GITHUB_ACTIONS_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.QA_GITHUB_ACTIONS_AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2
-
       - name: Checkout Repo
         if: ${{ inputs.build-project == 'yes' }}
         uses: actions/checkout@v2
@@ -47,6 +45,10 @@ jobs:
       - name: Build Project
         if: ${{ inputs.build-project == 'yes' }}
         uses: ./.github/actions/build
+        with:
+          aws-access-key-id: ${{ secrets.QA_GITHUB_ACTIONS_AWS_ACCESS_KEY_ID }}
+          aws-region: "us-west-2"
+          aws-secret-access-key: ${{ secrets.QA_GITHUB_ACTIONS_AWS_SECRET_ACCESS_KEY }}
 
       - name: Skip project build
         if: ${{ inputs.build-project == 'no' }}
