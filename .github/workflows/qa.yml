@@ -47,5 +47,5 @@ jobs:
     needs: _2
     uses: m3ta4/github-actions-lab/.github/workflows/deploy.yml@main
     with:
-      deploy-project: ${{ github.event.inputs.build-ami }}
+      deploy-project: ${{ github.event.inputs.build-project }}
       environment: ${{ github.event.inputs.environment }}
