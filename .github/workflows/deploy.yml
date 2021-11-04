@@ -14,6 +14,30 @@ jobs:
   Deploy:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        service: [classrooms, groups]
+        include:
+          - service: classrooms
+            aws-regions: [
+              ap-east-1,
+              ap-southeast-1,
+              ap-southeast-2,
+              ca-central-1,
+              eu-west-2,
+              me-south-1,
+              us-east-1,
+              us-east-2,
+              us-west-1,
+              us-west-2
+            ]
+          - service: groups
+            aws-regions: [
+                us-east-1,
+                us-east-2,
+                us-west-1,
+                us-west-2
+            ]
     steps:
       - name: Deploy Prod
         if: ${{ inputs.deploy-project == 'yes' && inputs.environment == 'prod' && github.actor == 'm3ta4' }}
@@ -28,9 +52,17 @@ jobs:
         if: ${{ inputs.deploy-project == 'yes' && inputs.environment == ( 'test' || 'io' ) }}
         env:
           ENVIRONMENT: ${{ inputs.environment }}
+          SERVICE: ${{ matrix.service }}
+          REGION: ${{ matrix.aws-regions }}
         run: |
           echo "Deploying Project"
-          echo "- Environment:" $ENVIRONMENT
+          echo "- Environment: " $ENVIRONMENT
+          echo "- Triggerd by: " $GITHUB_ACTOR
+          echo "- Service: " $SERVICE
+          echo "- Region: " $REGION
+          echo " "
+          echo "-----GITHUB ENVIRONMENT----- "
+          echo $GITHUB_ENV
 
       - name: Skip Deploy
         if: ${{ inputs.deploy-project == 'no' }}
