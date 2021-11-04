@@ -16,7 +16,6 @@ jobs:
 
     strategy:
       matrix:
-        service: [classrooms, groups]
         include:
           - service: classrooms
             aws-regions: [
