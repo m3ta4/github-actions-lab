@@ -1,0 +1,42 @@
+name: 'Deploy Classrooms'
+description: 'Classrooms deploy action.'
+inputs:
+  environment:
+    description: 'The ConedED environment.'
+    required: true
+    region:
+    description: 'Classrooms container image tag.'
+    required: true
+  service:
+    description: 'Classrooms or Groups.'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Encode Classrooms User Data
+      if: ${{ inputs.service == 'classrooms'}}
+      env:
+        ENVIRONMENT: ${{ inputs.environment }}
+        SERVICE: ${{ inputs.service }}
+        REGION: ${{ inputs.service}}
+      shell: bash
+      run: |
+        echo "Deploying Project"
+        echo "- Environment: " $ENVIRONMENT
+        echo "- Triggerd by: " $GITHUB_ACTOR
+        echo "- Service: " $SERVICE
+        echo "- Region: " $REGION
+
+    - name: Run Deploy Action
+      if: ${{ inputs.service == 'groups'}}
+      env:
+        ENVIRONMENT: ${{ inputs.environment }}
+        SERVICE: ${{ inputs.service }}
+        REGION: ${{ inputs.service}}
+      shell: bash
+      run: |
+        echo "Deploying Project"
+        echo "- Environment: " $ENVIRONMENT
+        echo "- Triggerd by: " $GITHUB_ACTOR
+        echo "- Service: " $SERVICE
+        echo "- Region: " $REGION
