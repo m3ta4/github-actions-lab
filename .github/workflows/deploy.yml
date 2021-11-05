@@ -61,7 +61,7 @@ jobs:
           echo "- Region: " $REGION
           echo " "
           echo "-----GITHUB ENVIRONMENT----- "
-          echo $GITHUB_ENV
+          cat $GITHUB_ENV
 
       - name: Skip Deploy
         if: ${{ inputs.deploy-project == 'no' }}
