@@ -60,8 +60,8 @@ jobs:
           echo "- Service: " $SERVICE
           echo "- Region: " $REGION
           echo " "
-          echo "-----GITHUB ENVIRONMENT----- "
-          cat $GITHUB_ENV
+          echo "-----ENVIRONMENT----- "
+          env
 
       - name: Skip Deploy
         if: ${{ inputs.deploy-project == 'no' }}
