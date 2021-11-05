@@ -29,6 +29,16 @@ jobs:
           us-west-1,
           us-west-2
         ]
+      exclude:
+        - service: groups
+          aws-region: [
+            ap-east-1,
+            ap-southeast-1,
+            ap-southeast-2,
+            ca-central-1,
+            eu-west-2,
+            me-south-1
+          ]
 
     steps:
       - name: Deploy Prod
