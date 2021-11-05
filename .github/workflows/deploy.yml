@@ -52,7 +52,7 @@ jobs:
         env:
           ENVIRONMENT: ${{ inputs.environment }}
           SERVICE: ${{ matrix.service }}
-          # REGION: ${{ matrix.aws-regions }}
+          REGION: ${{ matrix.aws-regions }}
         run: |
           echo "Deploying Project"
           echo "- Environment: " $ENVIRONMENT
