@@ -65,4 +65,11 @@ jobs:
 
       - name: Skip Deploy
         if: ${{ inputs.deploy-project == 'no' }}
-        run: echo "Skip deploy."
+        env:
+          ENVIRONMENT: ${{ inputs.environment }}
+          DEPLOY: ${{ inputs.deploy-project }}
+        run: |
+          echo "Skip Deploying Project"
+          echo "- Environment:" $ENVIRONMENT
+          echo "- Triggerd by:" $GITHUB_ACTOR
+          echo "- Deploy:" $DEPLOY
