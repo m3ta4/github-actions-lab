@@ -17,26 +17,20 @@ jobs:
     strategy:
       matrix:
         include:
-          - service: classrooms
-            aws-regions: [
-              ap-east-1,
-              ap-southeast-1,
-              ap-southeast-2,
-              ca-central-1,
-              eu-west-2,
-              me-south-1,
-              us-east-1,
-              us-east-2,
-              us-west-1,
-              us-west-2
-            ]
-          - service: groups
-            aws-regions: [
-                us-east-1,
-                us-east-2,
-                us-west-1,
-                us-west-2
-            ]
+          service: [classrooms, groups]
+          aws-region: [
+            ap-east-1,
+            ap-southeast-1,
+            ap-southeast-2,
+            ca-central-1,
+            eu-west-2,
+            me-south-1,
+            us-east-1,
+            us-east-2,
+            us-west-1,
+            us-west-2
+          ]
+
     steps:
       - name: Deploy Prod
         if: ${{ inputs.deploy-project == 'yes' && inputs.environment == 'prod' && github.actor == 'm3ta4' }}
@@ -52,7 +46,7 @@ jobs:
         env:
           ENVIRONMENT: ${{ inputs.environment }}
           SERVICE: ${{ matrix.service }}
-          REGION: ${{ matrix.aws-regions }}
+          REGION: ${{ matrix.aws-region }}
         run: |
           echo "Deploying Project"
           echo "- Environment: " $ENVIRONMENT
