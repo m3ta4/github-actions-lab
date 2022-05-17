@@ -42,6 +42,13 @@ jobs:
           pwd
           find .
 
+      - name: Docker Images
+        if: ${{ inputs.build-project == 'yes' }}
+        run: |
+          echo "Docker Images"
+          echo ""
+          docker images
+
       - name: Build Project
         if: ${{ inputs.build-project == 'yes' }}
         uses: ./.github/actions/build
